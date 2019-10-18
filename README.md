@@ -1,2 +1,2 @@
 # Internomium
-A 2D space shooter with retro graphics.
+A 2D space shooter featuring retro graphics made with Unity.
