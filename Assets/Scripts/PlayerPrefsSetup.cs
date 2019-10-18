@@ -15,12 +15,15 @@ public class PlayerPrefsSetup : MonoBehaviour {
 	public void setupForNewGame()
 	{
 		PlayerPrefs.SetInt("HP", 3);
+		PlayerPrefs.SetInt("KilledEnemies", 0);
+		PlayerPrefs.SetInt("OriginalMissile", 1);
 		PlayerPrefs.SetInt("Level", 1);
 	}
 	
 	public void advancedSetup()
 	{
 		PlayerPrefs.SetInt("Coins", 0);
+		PlayerPrefs.SetInt("Highscore", 0);
 		PlayerPrefs.SetInt("MovingSpeed", 1);
 		PlayerPrefs.SetInt("RotatingSpeed", 1);
 	}

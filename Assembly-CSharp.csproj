@@ -53,10 +53,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BasicEnemy.cs" />
+     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
+     <Compile Include="Assets\Scripts\FinalLevelAndHighscoreDisplay.cs" />
+     <Compile Include="Assets\Scripts\HighscoreDisplay.cs" />
      <Compile Include="Assets\Scripts\HpCounter.cs" />
      <Compile Include="Assets\Scripts\LevelCounter.cs" />
      <Compile Include="Assets\Scripts\MoneyCounter.cs" />
      <Compile Include="Assets\Scripts\PlayerManagement.cs" />
+     <Compile Include="Assets\Scripts\PlayerMissile.cs" />
      <Compile Include="Assets\Scripts\PlayerPrefsSetup.cs" />
      <Compile Include="Assets\Scripts\SceneLoader.cs" />
      <Compile Include="Assets\Scripts\ShopManager.cs" />
