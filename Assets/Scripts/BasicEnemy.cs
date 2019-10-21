@@ -14,6 +14,8 @@ public class BasicEnemy : MonoBehaviour {
 	private AudioSource DestroyedEnemySound;
 	private AudioSource NextLevelReachedSound;
 	
+	private bool silent;
+	
 	public float moveSpeed;
 	public float rotateSpeed;
 	
@@ -60,6 +62,12 @@ public class BasicEnemy : MonoBehaviour {
 		Coin = GameObject.Find("Coin");
 		HpBooster = GameObject.Find("HpBooster");
 		
+		if(PlayerPrefs.GetInt("OriginalEnemy") == 1)
+		{
+			PlayerPrefs.SetInt("OriginalEnemy", 0);
+			silent = true;
+		}
+		
 		StartCoroutine(CooldownTimer());
 	}
 	
@@ -83,7 +91,10 @@ public class BasicEnemy : MonoBehaviour {
 		if(ableToShoot == true)
 		{
 			ableToShoot = false;
-			ShootEnemyMissileSound.Play();
+			if(silent == false)
+			{
+				ShootEnemyMissileSound.Play();
+			}
 			Instantiate(EnemyMissile, transform.position, transform.rotation);
 			StartCoroutine(CooldownTimer());
 		}

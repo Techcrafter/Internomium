@@ -18,6 +18,7 @@ public class PlayerPrefsSetup : MonoBehaviour {
 		PlayerPrefs.SetInt("KilledEnemies", 0);
 		PlayerPrefs.SetInt("OriginalPlayerMissile", 1);
 		PlayerPrefs.SetInt("OriginalEnemyMissile", 1);
+		PlayerPrefs.SetInt("OriginalEnemy", 1);
 		PlayerPrefs.SetInt("Level", 1);
 	}
 	
