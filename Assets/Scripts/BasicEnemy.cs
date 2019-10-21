@@ -7,10 +7,15 @@ public class BasicEnemy : MonoBehaviour {
 	private GameObject PlayerShip;
 	private PlayerManagement PlayerManagement;
 	
+	private GameObject EnemyMissile;
+	private bool ableToShoot;
+	
+	private AudioSource ShootEnemyMissileSound;
 	private AudioSource DestroyedEnemySound;
 	private AudioSource NextLevelReachedSound;
 	
 	public float moveSpeed;
+	public float rotateSpeed;
 	
 	private float minPlayerX;
 	private float minPlayerY;
@@ -30,18 +35,22 @@ public class BasicEnemy : MonoBehaviour {
 	private Vector3 difference;
 	private float currentDistance;
 	
-	private float minMissileX;
-	private float minMissileY;
-	private float maxMissileX;
-	private float maxMissileY;
+	private float minPlayerMissileX;
+	private float minPlayerMissileY;
+	private float maxPlayerMissileX;
+	private float maxPlayerMissileY;
 	
 	private GameObject Coin;
+	private GameObject HpBooster;
 	
 	// Use this for initialization
 	void Start () {
 		PlayerShip = GameObject.Find("PlayerShip");
 		PlayerManagement = (PlayerManagement) PlayerShip.GetComponent(typeof(PlayerManagement));
 		
+		EnemyMissile = GameObject.Find("EnemyMissile");
+		
+		ShootEnemyMissileSound = (AudioSource) GameObject.Find("Sounds/ShootEnemyMissileSound").GetComponent(typeof(AudioSource));
 		DestroyedEnemySound = (AudioSource) GameObject.Find("Sounds/DestroyedEnemySound").GetComponent(typeof(AudioSource));
 		NextLevelReachedSound = (AudioSource) GameObject.Find("Sounds/NextLevelReachedSound").GetComponent(typeof(AudioSource));
 		
@@ -49,10 +58,36 @@ public class BasicEnemy : MonoBehaviour {
 		yChange = Random.Range(-moveSpeed, moveSpeed);
 		
 		Coin = GameObject.Find("Coin");
+		HpBooster = GameObject.Find("HpBooster");
+		
+		StartCoroutine(CooldownTimer());
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(PlayerShip.transform.position.x < transform.position.x)
+		{
+			if(Random.Range(1, 4) == 3)
+			{
+				transform.Rotate(0, 0, rotateSpeed, Space.Self);
+			}
+		}
+		if(PlayerShip.transform.position.x > transform.position.x)
+		{
+			if(Random.Range(1, 4) == 3)
+			{
+				transform.Rotate(0, 0, -rotateSpeed, Space.Self);
+			}
+		}
+		
+		if(ableToShoot == true)
+		{
+			ableToShoot = false;
+			ShootEnemyMissileSound.Play();
+			Instantiate(EnemyMissile, transform.position, transform.rotation);
+			StartCoroutine(CooldownTimer());
+		}
+		
 		minPlayerX = PlayerShip.transform.position.x - PlayerShip.transform.localScale.x;
 		minPlayerY = PlayerShip.transform.position.y - PlayerShip.transform.localScale.y;
 		maxPlayerX = PlayerShip.transform.position.x + PlayerShip.transform.localScale.x;
@@ -110,12 +145,12 @@ public class BasicEnemy : MonoBehaviour {
 		
 		if(closestPlayerMissile != null)
 		{
-			minMissileX = closestPlayerMissile.transform.position.x - closestPlayerMissile.transform.localScale.x;
-			minMissileY = closestPlayerMissile.transform.position.y - closestPlayerMissile.transform.localScale.y;
-			maxMissileX = closestPlayerMissile.transform.position.x + closestPlayerMissile.transform.localScale.x;
-			maxMissileY = closestPlayerMissile.transform.position.y + closestPlayerMissile.transform.localScale.y;
+			minPlayerMissileX = closestPlayerMissile.transform.position.x - closestPlayerMissile.transform.localScale.x;
+			minPlayerMissileY = closestPlayerMissile.transform.position.y - closestPlayerMissile.transform.localScale.y;
+			maxPlayerMissileX = closestPlayerMissile.transform.position.x + closestPlayerMissile.transform.localScale.x;
+			maxPlayerMissileY = closestPlayerMissile.transform.position.y + closestPlayerMissile.transform.localScale.y;
 			
-			if(transform.position.x >= minMissileX && transform.position.y >= minMissileY && transform.position.x <= maxMissileX && transform.position.y <= maxMissileY)
+			if(transform.position.x >= minPlayerMissileX && transform.position.y >= minPlayerMissileY && transform.position.x <= maxPlayerMissileX && transform.position.y <= maxPlayerMissileY)
 			{
 				DestroyedEnemySound.Play();
 				PlayerPrefs.SetInt("KilledEnemies", PlayerPrefs.GetInt("KilledEnemies") + 1);
@@ -125,9 +160,22 @@ public class BasicEnemy : MonoBehaviour {
 					PlayerPrefs.SetInt("KilledEnemies", 0);
 					PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 				}
-				Instantiate(Coin, transform.position, Quaternion.identity);
+				if(Random.Range(1, 21) == 1)
+				{
+					Instantiate(HpBooster, transform.position, Quaternion.identity);
+				}
+				else
+				{
+					Instantiate(Coin, transform.position, Quaternion.identity);
+				}
 				Destroy(gameObject);
 			}
 		}
+	}
+	
+	IEnumerator CooldownTimer ()
+	{
+		yield return new WaitForSeconds(Random.Range(1, 4));
+		ableToShoot = true;
 	}
 }

@@ -6,13 +6,16 @@ public class PlayerManagement : MonoBehaviour {
 	
 	public GameObject LoadingText;
 	
-	private GameObject Missile;
+	private GameObject PlayerMissile;
 	
 	private GameObject Sprite;
 	
 	private AudioSource GetHitSound;
-	private AudioSource ShootMissileSound;
+	private AudioSource ShootPlayerMissileSound;
 	private AudioSource CollectCoinSound;
+	private AudioSource CollectHpBoosterSound;
+	
+	private GameObject MusicPlayer;
 	
 	private int movingSpeed;
 	private int rotatingSpeed;
@@ -35,21 +38,37 @@ public class PlayerManagement : MonoBehaviour {
 	private float maxCoinX;
 	private float maxCoinY;
 	
+	private GameObject[] HpBoosters;
+	private GameObject closestHpBooster = null;
+	
+	private float minHpBoosterX;
+	private float minHpBoosterY;
+	private float maxHpBoosterX;
+	private float maxHpBoosterY;
+	
 	// Use this for initialization
 	void Start () {
-		Missile = GameObject.Find("PlayerMissile");
+		PlayerMissile = GameObject.Find("PlayerMissile");
 		
 		Sprite = GameObject.Find("PlayerShip/Sprite");
 		
-		CollectCoinSound = (AudioSource) GameObject.Find("Sounds/CollectCoinSound").GetComponent(typeof(AudioSource));
 		GetHitSound = (AudioSource) GameObject.Find("Sounds/GetHitSound").GetComponent(typeof(AudioSource));
-		ShootMissileSound = (AudioSource) GameObject.Find("Sounds/ShootMissileSound").GetComponent(typeof(AudioSource));
+		ShootPlayerMissileSound = (AudioSource) GameObject.Find("Sounds/ShootPlayerMissileSound").GetComponent(typeof(AudioSource));
+		CollectCoinSound = (AudioSource) GameObject.Find("Sounds/CollectCoinSound").GetComponent(typeof(AudioSource));
+		CollectHpBoosterSound = (AudioSource) GameObject.Find("Sounds/CollectHpBoosterSound").GetComponent(typeof(AudioSource));
+		
+		MusicPlayer = GameObject.Find("MusicPlayer");
 		
 		movingSpeed = PlayerPrefs.GetInt("MovingSpeed");
 		rotatingSpeed = PlayerPrefs.GetInt("RotatingSpeed");
 		
 		cacheX = transform.position.x;
 		cacheY = transform.position.y;
+		
+		if(PlayerPrefs.GetInt("MusicMuted") == 1)
+		{
+			MusicPlayer.SetActive(false);
+		}
 	}
 	
 	void FixedUpdate () {
@@ -94,8 +113,26 @@ public class PlayerManagement : MonoBehaviour {
 		}
 		if(Input.GetButtonDown("Fire1"))
 		{
-			ShootMissileSound.Play();
-			Instantiate(Missile, transform.position, transform.rotation);
+			ShootPlayerMissileSound.Play();
+			Instantiate(PlayerMissile, transform.position, transform.rotation);
+		}
+		if(Input.GetButtonDown("Cancel"))
+		{
+			LoadingText.SetActive(true);
+			Application.LoadLevel(3);
+		}
+		if(Input.GetButtonDown("Mute music"))
+		{
+			if(PlayerPrefs.GetInt("MusicMuted") == 0)
+			{
+				PlayerPrefs.SetInt("MusicMuted", 1);
+				MusicPlayer.SetActive(false);
+			}
+			else
+			{
+				PlayerPrefs.SetInt("MusicMuted", 0);
+				MusicPlayer.SetActive(true);
+			}
 		}
 		
 		Coins = GameObject.FindGameObjectsWithTag("Coin");
@@ -121,8 +158,36 @@ public class PlayerManagement : MonoBehaviour {
 			if(transform.position.x >= minCoinX && transform.position.y >= minCoinY && transform.position.x <= maxCoinX && transform.position.y <= maxCoinY)
 			{
 				CollectCoinSound.Play();
-				PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + 10);
+				PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + 20);
 				Destroy(closestCoin);
+			}
+		}
+		
+		HpBoosters = GameObject.FindGameObjectsWithTag("HpBooster");
+		closestHpBooster = null;
+		foreach(GameObject HpBooster in HpBoosters)
+		{
+			difference = HpBooster.transform.position - transform.position;
+			currentDistance = difference.sqrMagnitude;
+			if(currentDistance < distance)
+			{
+				closestHpBooster = HpBooster;
+				distance = currentDistance;
+			}
+		}
+		
+		if(closestHpBooster != null)
+		{
+			minHpBoosterX = closestHpBooster.transform.position.x - closestHpBooster.transform.localScale.x;
+			minHpBoosterY = closestHpBooster.transform.position.y - closestHpBooster.transform.localScale.y;
+			maxHpBoosterX = closestHpBooster.transform.position.x + closestHpBooster.transform.localScale.x;
+			maxHpBoosterY = closestHpBooster.transform.position.y + closestHpBooster.transform.localScale.y;
+			
+			if(transform.position.x >= minHpBoosterX && transform.position.y >= minHpBoosterY && transform.position.x <= maxHpBoosterX && transform.position.y <= maxHpBoosterY)
+			{
+				CollectHpBoosterSound.Play();
+				PlayerPrefs.SetInt("HP", PlayerPrefs.GetInt("HP") + 1);
+				Destroy(closestHpBooster);
 			}
 		}
 	}

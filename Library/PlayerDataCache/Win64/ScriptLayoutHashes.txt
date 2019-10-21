@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-D:/Jonas Wolf/Documents/Meine Programme/Internomium/ver.1.0.0/Internomium.exe
+D:/Jonas Wolf/Documents/Meine Programme/Internomium/ver.1.1.0/Internomium.exe
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/Shop.unity
@@ -22,7 +22,7 @@ c7dd12c15208b0447e101f80038706df UnityEngine.Timeline.dll:UnityEngine.Timeline.A
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 64f3a13c1277a7f1324321d93d0ec13b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.HighscoreDisplay
-8291f7e305cf3f528973d6026f5496f5 Assembly-CSharp.dll:.BasicEnemy
+d95d6dbf8c4818563fb33faf6bb3d830 Assembly-CSharp.dll:.BasicEnemy
 f6637497451c9a030c421de4a1ad5cdb Unity.TextMeshPro.dll:TMPro.TMP_ScrollbarEventHandler
 b14b4630cc47b6e9ea8a644551a6a8cc Unity.TextMeshPro.dll:TMPro.TMP_Text
 53cefe5d98cadefbab750835e70b89c0 UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
@@ -180,3 +180,5 @@ e04611b8715e6833d2bd7010fc6be10b Unity.TextMeshPro.dll:TMPro.TMP_StyleSheet
 836cb1a1bd674bc73b0b3246498e90a9 Assembly-CSharp.dll:.SceneLoader
 93307bd34e39d73fd24e00ec39c25a91 Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.MoneyCounter
+486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.EnemyMissile
+486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.EnemyMissileSprite

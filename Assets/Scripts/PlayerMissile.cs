@@ -30,48 +30,11 @@ public class PlayerMissile : MonoBehaviour {
 		StartCoroutine(DestroyTimer());
 	}
 	
-	void FixedUpdate () {
-		Enemies = GameObject.FindGameObjectsWithTag("Enemy");
-		closestEnemy = null;
-		foreach(GameObject Enemy in Enemies)
-		{
-			difference = Enemy.transform.position - transform.position;
-			currentDistance = difference.sqrMagnitude;
-			if(currentDistance < distance)
-			{
-				closestEnemy = Enemy;
-				distance = currentDistance;
-			}
-		}
-		
-		if(closestEnemy != null)
-		{
-			minEnemyX = closestEnemy.transform.position.x - closestEnemy.transform.localScale.x;
-			minEnemyY = closestEnemy.transform.position.y - closestEnemy.transform.localScale.y;
-			maxEnemyX = closestEnemy.transform.position.x + closestEnemy.transform.localScale.x;
-			maxEnemyY = closestEnemy.transform.position.y + closestEnemy.transform.localScale.y;
-			
-			if(transform.position.x >= minEnemyX && transform.position.y >= minEnemyY && transform.position.x <= maxEnemyX && transform.position.y <= maxEnemyY)
-			{
-				DestroyedEnemySound.Play();
-				PlayerPrefs.SetInt("KilledEnemies", PlayerPrefs.GetInt("KilledEnemies") + 1);
-				if(PlayerPrefs.GetInt("KilledEnemies") >= PlayerPrefs.GetInt("Level"))
-				{
-					NextLevelReachedSound.Play();
-					PlayerPrefs.SetInt("KilledEnemies", 0);
-					PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-				}
-				Instantiate(Coin, closestEnemy.transform.position, Quaternion.identity);
-				Destroy(closestEnemy);
-			}
-		}
-	}
-	
 	IEnumerator DestroyTimer ()
 	{
-		if(PlayerPrefs.GetInt("OriginalMissile") == 1)
+		if(PlayerPrefs.GetInt("OriginalPlayerMissile") == 1)
 		{
-			PlayerPrefs.SetInt("OriginalMissile", 0);
+			PlayerPrefs.SetInt("OriginalPlayerMissile", 0);
 		}
 		else
 		{

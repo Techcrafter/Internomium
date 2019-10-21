@@ -16,7 +16,8 @@ public class PlayerPrefsSetup : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt("HP", 3);
 		PlayerPrefs.SetInt("KilledEnemies", 0);
-		PlayerPrefs.SetInt("OriginalMissile", 1);
+		PlayerPrefs.SetInt("OriginalPlayerMissile", 1);
+		PlayerPrefs.SetInt("OriginalEnemyMissile", 1);
 		PlayerPrefs.SetInt("Level", 1);
 	}
 	
@@ -26,5 +27,6 @@ public class PlayerPrefsSetup : MonoBehaviour {
 		PlayerPrefs.SetInt("Highscore", 0);
 		PlayerPrefs.SetInt("MovingSpeed", 1);
 		PlayerPrefs.SetInt("RotatingSpeed", 1);
+		PlayerPrefs.SetInt("MusicMuted", 0);
 	}
 }

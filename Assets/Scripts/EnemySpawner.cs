@@ -66,7 +66,7 @@ public class EnemySpawner : MonoBehaviour {
 	
 	IEnumerator WaitForNextSpawn ()
 	{
-		yield return new WaitForSeconds(Random.Range(5, 16));
+		yield return new WaitForSeconds(Random.Range(3, 9));
 		ableToSpawn = true;
 	}
 }

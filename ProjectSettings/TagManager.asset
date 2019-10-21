@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Coin
-  - Enemy
   - PlayerMissile
+  - HpBooster
   layers:
   - Default
   - TransparentFX
