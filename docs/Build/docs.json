@@ -1,0 +1,17 @@
+{
+"companyName": "The Internomium Team",
+"productName": "Internomium",
+"productVersion": "0.1",
+"dataUrl": "docs.data.unityweb",
+"wasmCodeUrl": "docs.wasm.code.unityweb",
+"wasmFrameworkUrl": "docs.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"backgroundUrl": "docs.jpg",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#FFFFFF",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.2.17f1"
+}
